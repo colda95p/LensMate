@@ -3,6 +3,36 @@ from photoCalcs import *
 from tools import *
 import math
 
+st.markdown(
+    """
+    <style>
+    /* Riduce margine verticale tra tutti i widget principali */
+    div.stSlider, 
+    div.stNumberInput, 
+    div.stSelectSlider, 
+    div.stExpander {
+        margin-top: 0.1rem;
+        margin-bottom: 0.1rem;
+    }
+
+    /* Riduce il padding interno dei box dei widget */
+    div.stSlider > div, 
+    div.stNumberInput > div, 
+    div.stSelectSlider > div {
+        padding-top: 0.1rem;
+        padding-bottom: 0.1rem;
+    }
+
+    /* Opzionale: riduce l'altezza del testo nei bottoni/freccette */
+    button, input {
+        line-height: 1rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
 st.title("📷 Lens Mate App")
 
 # valori di default
