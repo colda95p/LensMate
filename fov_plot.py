@@ -5,37 +5,29 @@ import math
 
 def plot_camera_profile(photo, settings):
     
-    # Calcolo altezza FOV in funzione della distanza
+    # Calcolo FOV in funzione della distanza
     def fov_height(d):
         return d * np.tan(np.radians(photo.fov_ang_v / 2))
     
     def fov_width(d):
-        # Larghezza reale a distanza d
         return d * np.tan(np.radians(photo.fov_ang_h / 2))
     
     # Gestione caso far infinito
-    far_is_infinite = math.isinf(photo.far)
+    far_is_infinite = math.isinf(photo.far) or settings.focus_distance_m >= photo.hyperfocal
     max_distance = 1.25*((photo.far if photo.far < photo.hyperfocal else photo.hyperfocal) if not far_is_infinite else photo.hyperfocal)
     
     fig, ax = plt.subplots(figsize=(10, 5))
     
-    # --- Disegniamo triangolo FOV SOLO tra near e far ---
-    d_fill = np.linspace(photo.near, photo.far if not far_is_infinite else max_distance, 500)
+    fov_color = ('skyblue' if photo.far < max_distance else 'blue' ) if not far_is_infinite else 'purple'
+    d_fill = np.linspace(photo.near, max_distance, 500)
     h_fill = fov_height(d_fill)
-    ax.fill_between(d_fill, -h_fill, h_fill, color='skyblue', alpha=0.3, label='FOV')
-    
+    ax.fill_between(d_fill, -h_fill, h_fill, color=fov_color, alpha=0.3)
+
     # --- Bordi sempre visibili ---
     d_borders = np.linspace(0, max_distance, 500)
     h_borders = fov_height(d_borders)
-    ax.plot(d_borders, h_borders, color='skyblue', linewidth=2)
-    ax.plot(d_borders, -h_borders, color='skyblue', linewidth=2)
-    
-    # Se far infinito, disegniamo un rettangolo oltre iperfocale
-    if far_is_infinite or settings.focus_distance_m >= photo.hyperfocal:
-        rect_start = settings.focus_distance_m
-        rect_end = max_distance
-        h_rect = fov_height(photo.hyperfocal)
-        ax.fill_between([rect_start, rect_end], -h_rect, h_rect, color='lightgrey', alpha=0.5, label='∞')
+    ax.plot(d_borders, h_borders, color='black', linewidth=1)
+    ax.plot(d_borders, -h_borders, color='black', linewidth=1)
     
     # Barre verticali per distanze chiave
     bars = {
@@ -76,15 +68,29 @@ def plot_camera_profile(photo, settings):
             fontsize=12,
             fontweight='bold'
         )
+
+    # Testo multilinea ma con angolare + lineare sulla stessa riga
+    textstr = '\n'.join((
+        f'FoV h: {photo.fov_ang_h:.0f}° / {photo.fov_lin_h:.1f} m',
+        f'FoV v: {photo.fov_ang_v:.0f}° / {photo.fov_lin_v:.1f} m'
+    ))
+
+    # Aggiungiamo il textbox in alto a sinistra
+    ax.text(
+        0.02, 0.98, textstr, transform=ax.transAxes,  # coordinate relative alla finestra [0,1]
+        fontsize=10,
+        verticalalignment='top',
+        bbox=dict(boxstyle='round,pad=0.3', facecolor='white', alpha=0.8)
+    )
             
     # Stile grafico
-    ax.set_xlabel('Distanza (m)', fontsize=12)
-    ax.set_ylabel('Altezza FOV (m)', fontsize=12)
-    ax.set_title('Vista di profilo del FOV della fotocamera', fontsize=14)
+    ax.set_xlabel('Distance [m]', fontsize=12)
+    ax.set_ylabel('Height [m]', fontsize=12)
     ax.grid(True, linestyle='--', alpha=0.5)
     
     ax.set_xlim(0, max_distance)
-    ax.set_ylim(-fov_height(max_distance*1.1), fov_height(max_distance*1.1))
+    ax.set_ylim(-max_distance/4, +max_distance/4)
+    ax.set_aspect('equal')  # fondamentale per FOV reale!
     ax.legend()
     
     return fig

@@ -37,8 +37,10 @@ class Photo:
         coc = camera.circle_of_confusion_mm / 1000
         N = settings.aperture
         u = settings.focus_distance_m
-        den = (f**4-(N*coc*(u-f))**2)
-        self.dof = (2*N*coc*u*(u-f)*f**2) / den; 
+        try:
+            self.dof = (2*N*coc*u*(u-f)*f**2) / (f**4-(N*coc*(u-f))**2)
+        except:
+             self.dof = math.inf
         if (self.dof <= 0):
             self.dof = 0
         if (math.isnan(self.dof) or math.isinf(self.dof)):
