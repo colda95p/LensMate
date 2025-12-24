@@ -19,7 +19,7 @@ def plot_camera_profile(photo, settings):
     fig, ax = plt.subplots(figsize=(10, 5))
     
     fov_color = ('skyblue' if photo.far < max_distance else 'blue' ) if not far_is_infinite else 'purple'
-    d_fill = np.linspace(photo.near, max_distance, 500)
+    d_fill = np.linspace(photo.near, photo.far, 500)
     h_fill = fov_height(d_fill)
     ax.fill_between(d_fill, -h_fill, h_fill, color=fov_color, alpha=0.3)
 
