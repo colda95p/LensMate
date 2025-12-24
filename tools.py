@@ -7,3 +7,4 @@ def format_value(val):
         return f"{val:.2f}"
     else:
         return f"{round(val)}"
+    

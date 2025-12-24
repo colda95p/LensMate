@@ -6,6 +6,7 @@ import math
 
 st.title("📷 Lens Mate App")
 
+
 if 'camera' not in st.session_state:
     # valori di default
     sensor_width = 22.3
@@ -14,13 +15,30 @@ if 'camera' not in st.session_state:
     # creo l'oggetto camera e lo salvo nello session_state
     st.session_state.camera = Camera(sensor_width, sensor_height, coc)
 
+if "focus_distance" not in st.session_state:
+    st.session_state.focus_distance = 1.0
+
 with st.expander("Settings", expanded=True):
     col1, col2, col3 = st.columns([1,1,1])
     focal_length = col1.slider("Focal Length [mm]", 16, 400, 50)
     aperture = col2.select_slider(
         "Aperture [f/]", options=[1.4, 2.0, 2.8, 4.0, 5.6, 8.0, 11.0, 16.0, 22.0], value=4.0
     )
-    focus_distance = col3.slider("Focus Distance [m]", 0.1, 50.0, 1.0)
+    # -------- Hyperfocal slider preview  --------
+    temp_settings = Settings(focal_length, aperture, 1.0)
+    temp_photo = Photo()
+    temp_photo.calc_optics(st.session_state.camera, temp_settings)
+
+    hyperfocal = max(0.2, float(temp_photo.hyperfocal))
+    st.session_state.focus_distance = hyperfocal if st.session_state.focus_distance > hyperfocal else st.session_state.focus_distance
+    # Focus distance (limitata all'iperfocale)
+    focus_distance = col3.slider(
+        "Focus Distance [m]",
+        min_value=0.1,
+        max_value=hyperfocal,
+        step=0.1,
+        key="focus_distance"
+    )
 
 settings = Settings(focal_length, aperture, focus_distance)
 
