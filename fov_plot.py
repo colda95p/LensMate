@@ -59,7 +59,7 @@ def plot_camera_profile(photo, settings):
             format_value(x),
             xy=(x_plot, 0),  # x in dati, y in basso
             xycoords=('data', 'axes fraction'),  # y in coordinate normalizzate 0=bottom
-            xytext=(-15, 15),  # offset in punti se vuoi
+            xytext=(-20, 15),  # offset in punti se vuoi
             textcoords='offset points',
             ha='center',
             va='top',
@@ -70,10 +70,13 @@ def plot_camera_profile(photo, settings):
         )
 
     # Testo multilinea ma con angolare + lineare sulla stessa riga
-    textstr = '\n'.join((
-        f'FoV h: {photo.fov_ang_h:.0f}° / {photo.fov_lin_h:.1f} m',
-        f'FoV v: {photo.fov_ang_v:.0f}° / {photo.fov_lin_v:.1f} m'
-    ))
+    textstr = '\n'.join([
+        f'FoV az: {photo.fov_ang_h:.0f}° ({photo.fov_lin_h:.1f} m)',
+        f'FoV el: {photo.fov_ang_v:.0f}° ({photo.fov_lin_v:.1f} m)',
+        f'Hyperfocal: {format_value(photo.hyperfocal)} m',
+        f'Near: {format_value(photo.near)} m',
+        f'Far: {format_value(photo.far)} m',
+        f'DoF: {format_value(photo.dof)} m'])
 
     # Aggiungiamo il textbox in alto a sinistra
     ax.text(

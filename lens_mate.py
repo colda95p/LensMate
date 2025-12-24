@@ -53,17 +53,6 @@ fig = plot_camera_profile(photo, settings)
 # Mostriamo in Streamlit
 st.pyplot(fig)
 
-# visualizzazione risultati
-st.subheader("📊 Risultati calcolati")
-
-st.write(f"Hyperfocal Distance: **{format_value(photo.hyperfocal)} m**")
-st.write(f"Near Focus: **{format_value(photo.near)} m**")
-st.write(f"Far Focus: **{format_value(photo.far)} m**")
-st.write(f"Depth of Field: **{format_value(photo.dof)} m**")
-st.write(f"Horizontal FOV: **{round(photo.fov_ang_h)}°** ({format_value(photo.fov_lin_h)} m)")
-st.write(f"Vertical FOV: **{round(photo.fov_ang_v)}°** ({format_value(photo.fov_lin_v)} m)")
-
-
 with st.expander("Camera", expanded=False):
     col1, col2, col3 = st.columns(3)
     sensor_width = col1.number_input("Sensor Width [mm]", value=22.3, format="%.1f", step=0.1)
