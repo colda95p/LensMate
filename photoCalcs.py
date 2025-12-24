@@ -27,6 +27,10 @@ class Photo:
         self.hyperfocal = 0
         self.near = 0
         self.far = 0
+        self.fov_ang_h = 0
+        self.fov_ang_v = 0
+        self.fov_lin_h = 0
+        self.fov_lin_v = 0
 
     def calc_optics(self, camera: Camera, settings: Settings):
         f = settings.focal_length_mm / 1000
@@ -46,3 +50,9 @@ class Photo:
             self.far = math.inf
         else:
             self.far = (self.hyperfocal * u) / (self.hyperfocal - (u - f))
+
+        self.fov_ang_h = 2 * math.degrees(math.atan(camera.sensor_width_mm / (2 * settings.focal_length_mm)))
+        self.fov_ang_v = 2 * math.degrees(math.atan(camera.sensor_height_mm / (2 * settings.focal_length_mm)))
+
+        self.fov_lin_h = 2 * u * math.tan(math.radians(self.fov_ang_h / 2))
+        self.fov_lin_v = 2 * u * math.tan(math.radians(self.fov_ang_v / 2))
