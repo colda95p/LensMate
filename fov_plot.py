@@ -87,12 +87,12 @@ def plot_camera_profile(photo, settings):
     )
             
     # Stile grafico
-    ax.set_xlabel('Distance [m]', fontsize=12)
-    ax.set_ylabel('Height [m]', fontsize=12)
+    #ax.set_xlabel('Distance [m]', fontsize=12)
+    #ax.set_ylabel('Height [m]', fontsize=12)
     ax.grid(True, linestyle='--', alpha=0.5)
     
     ax.set_xlim(0, max_distance)
-    ax.set_ylim(-max_distance/4, +max_distance/4)
+    ax.set_ylim(-max_distance/2, +max_distance/2)
     ax.set_aspect('equal')  # fondamentale per FOV reale!
     ax.legend()
     
