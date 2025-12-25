@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Lens Mate</title>
+  <script src="https://cdn.plot.ly/plotly-2.30.0.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>📷 Lens Mate</h2>
+
+<label>Focal Length</label>
+<input type="range" id="focal" min="16" max="400" value="50">
+
+<label>Aperture</label>
+<input type="range" id="aperture" min="1.4" max="22" step="0.1" value="4">
+
+<button onclick="calculate()">Calcola</button>
+
+<div id="plot"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
