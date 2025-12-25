@@ -29,12 +29,7 @@ hyperfocal = max(0.2, float(temp_photo.hyperfocal))
 st.session_state.focus_distance = hyperfocal if st.session_state.focus_distance > hyperfocal else st.session_state.focus_distance
     # Focus distance (limitata all'iperfocale)
     
-focus_distance = col3.slider(
-    "Focus Distance [m]",
-    min_value=0.1,
-    max_value=hyperfocal,
-    step=0.1,
-    key="focus_distance")
+focus_distance = col3.slider("Focus Distance [m]",min_value=0.1,max_value=hyperfocal,step=0.1,key="focus_distance")
 
 settings = Settings(focal_length, aperture, focus_distance)
 

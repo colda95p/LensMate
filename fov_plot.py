@@ -73,9 +73,9 @@ def plot_camera_profile(photo, settings):
     textstr = '\n'.join([
         f'FoV az: {photo.fov_ang_h:.0f}° ({photo.fov_lin_h:.1f} m)',
         f'FoV el: {photo.fov_ang_v:.0f}° ({photo.fov_lin_v:.1f} m)',
-        f'Hyperfocal: {format_value(photo.hyperfocal)} m',
-        f'Near: {format_value(photo.near)} m',
-        f'Far: {format_value(photo.far)} m',
+        #f'Hyperfocal: {format_value(photo.hyperfocal)} m',
+        #f'Near: {format_value(photo.near)} m',
+        #f'Far: {format_value(photo.far)} m',
         f'DoF: {format_value(photo.dof)} m'])
 
     # Aggiungiamo il textbox in alto a sinistra
